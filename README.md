@@ -1,46 +1,41 @@
-# Confined layer slips
+# Strength of a Cu single crystal containing a spherical nanovoid
 
 ## Foreword
 
-The purpose of this project is to calculate the confined layer slip (CLS) process in nanolaminated Ag and two types of Ag/Cu nanolaminates containing a void due to irradiation.
+Ductile metal fractures have traditionally been attributed to the growth of voids. With increasing strain, the metal's deformation becomes irreversible, and the voids expand more rapidly. As the strain increases further, neighboring voids interact and coalesce into larger ones, eventually leading to crack propagation within the metal.
 
-Read the following journal articles to learn more about nanolaminates
+In this project, we will employ atomistic simulations to calculate the strength of a Cu single crystal containing a spherical nanovoid. We aim to answer these three questions:
 
-- Irene J. Beyerlein, Zezhou Li, Nathan A. Mara, [Mechanical properties of metal nanolaminates](https://doi.org/10.1146/annurev-matsci-081320-031236), Annu. Rev. Mater. Sci 52 (2022) 281--304
-- Mohammad Nasim, Yuncang Li, Ming Wen, Cuie Wen, [A review of high-strength nanolaminates and evaluation of their properties](https://doi.org/10.1016/j.jmst.2020.03.011), J. Mater. Sci. Tech. 50 (2020) 215--244
-- I.J. Beyerlein, J. Wang, [Interface-driven mechanisms in cubic/noncubic nanolaminates at different scales](https://doi.org/10.1557/mrs.2018.319), MRS Bull. 44 (2019) 31--39
-- Samikshya Subedi, Irene J. Beyerlein, Richard LeSar, Anthony D. Rollett, [Strength of nanoscale metallic multilayers](https://doi.org/10.1016/j.scriptamat.2017.04.009), Scr. Mater. 145 (2018) 132--136
-- Jian Wang, Qing Zhou, Shuai Shao, Amit Misra, [Strength and plasticity of nanolaminated materials](https://doi.org/10.1080/21663831.2016.1225321), Mater. Res. Lett. 5 (2017) 1--19
-- A. Misra, J.P. Hirth, R.G. Hoagland, [Length-scale-dependent deformation mechanisms in incoherent metallic multilayered composites](https://doi.org/10.1016/j.actamat.2005.06.025), Acta Mater. 53 (2005) 4817--4824
+- How does the void size affect the material strength?
+- How do the stacking fault energies affect the void size-dependent material strength?
+- Related to the second question, can we train an ML model to predict the strength?
 
-Read the following journal articles to understand how the CLS process can be calculated:
+Please read the following journal articles to understand how the strength of a void-containing material can be calculated using atomistic simulations:
 
-- Weisen Ji, Wu-Rong Jian, Yanqing Su, Shuozhi Xu, Irene J. Beyerlein, [Role of stacking fault energy in confined layer slip in nanolaminated Cu](http://dx.doi.org/10.1007/s10853-023-08779-8), J. Mater. Sci. (in press)
-- Wu-Rong Jian, Shuozhi Xu, Yanqing Su, Irene J. Beyerlein, [Role of layer thickness and dislocation distribution in confined layer slip in nanolaminated Nb](http://dx.doi.org/10.1016/j.ijplas.2022.103239), Int. J. Plast. 152 (2022) 103239
-- Wu-Rong Jian, Yanqing Su, Shuozhi Xu, Weisen Ji, Irene J. Beyerlein, [Effect of interface structure on dislocation glide behavior in nanolaminates](http://dx.doi.org/10.1557/s43578-021-00261-y), J. Mater. Res. 36 (2021) 2802--2815
+- Shuozhi Xu, Yanqing Su, Saeed Zare Chavoshi, [Deformation of periodic nanovoid structures in Mg single crystals](http://dx.doi.org/10.1088/2053-1591/aaa678), Mater. Res. Express 5 (2018) 016523
+- Shuozhi Xu, Yanqing Su, Dengke Chen, Longlei Li, [Plastic deformation of Cu single crystals containing an elliptic cylindrical void](http://dx.doi.org/10.1016/j.matlet.2017.02.005), Mater. Lett. 193 (2017) 283--287
+- Shuozhi Xu, Yanqing Su, [Nanovoid growth in BCC $\alpha$-Fe: Influences of initial void geometry](http://dx.doi.org/10.1088/0965-0393/24/8/085015), Modelling Simul. Mater. Sci. Eng. 24 (2016) 085015
+- Yanqing Su, Shuozhi Xu, [On the role of initial void geometry in plastic deformation of metallic thin films: A molecular dynamics study](http://dx.doi.org/10.1016/j.msea.2016.09.091), Mater. Sci. Eng. A 678 (2016) 153--164
 
-Most papers above are not in the Cu/Ag system. The following are some prior work on Cu/Ag nanolaminates:
+Note: all papers above were on 2D voids. More papers, including those on 3D voids, can be found [here](https://drive.google.com/drive/folders/10zcbMxHpxCnG1PrJtRhMz4cvf44nXNWz?usp=sharing).
 
-- Experiments
-	- Min Wang, Irene J. Beyerlein, Jian Zhang, Wei-Zhong Han, [Bi-metal interface-mediated defects distribution in neon ion bombarded Cu/Ag nanocomposites](https://doi.org/10.1016/j.scriptamat.2019.06.016), Scr. Mater. 171 (2019) 1--5
-	- Min Wang, Irene J. Beyerlein, Jian Zhang, Wei-Zhong Han, [Defect-interface interactions in irradiated Cu/Ag nanocomposites](https://doi.org/10.1016/j.actamat.2018.09.003), Acta Mater. 160 (2018) 211--223
-	- Shijian Zheng, Shuai Shao, Jian Zhang, Yongqiang Wang, Michael J. Demkowicz, Irene J. Beyerlein, Nathan A. Mara, [Adhesion of voids to bimetal interfaces with non-uniform energies](http://dx.doi.org/10.1038/srep15428), Sci. Rep. 5 (2015) 15428
-- Modeling
-	- Yanxiang Liang, Aibo Luo, Lingwei Yang, Jianfeng Zhao, Luobing Wang, Qiang Wan, [Effect of interface structure and layer thickness on the mechanical properties and deformation behavior of Cu/Ag nanolaminates](https://doi.org/10.1016/j.physb.2023.414933), Phys. B Condens. Matter 661 (2023) 414933
-	- X.F. Kong, N. Gao, I.J. Beyerlein, B.N. Yao, S.J. Zheng, X.L. Ma, D. Legut, T.C. Germann, H.J. Zhang, R.F. Zhang, [Interface facilitated transformation of voids directly into stacking fault tetrahedra](https://doi.org/10.1016/j.actamat.2020.02.044), Acta Mater. 188 (2020) 623-634
-	- X.F. Kong, I.J. Beyerlein, Z.R. Liu, B.N. Yao, D. Legut, T.C. Germann, R.F. Zhang, [Stronger and more failure-resistant with three-dimensional serrated bimetal interfaces](https://doi.org/10.1016/j.actamat.2018.12.051), Acta Mater. 166 (2019) 231--245
-	- A. Kardani, A. Montazeri, [Temperature-based plastic deformation mechanism of Cu/Ag nanocomposites: A molecular dynamics study](https://doi.org/10.1016/j.commatsci.2017.12.041), Comput. Mater. Sci. 144 (2018) 223--231
+## Generalized stacking fault energy
+
+To understand the generalized stacking fault energy (GSFE) in face-centered cubic metals, please read [this paper](http://dx.doi.org/10.1063/1.5115282).
+
+Along the GSFE curve, two energies are important: instrinsic stacking fault energy (ISFE) and unstable stacking fault energy (USFE). Note that ISFE is sometimes called stable stacking fault energy.
+
+## Interatomic potentials
+
+Eleven interatomic potentials will be used. The first seven potentials, developed by [Borovikov et al. in 2015](http://dx.doi.org/10.1088/0965-0393/23/5/055003), have largely the same ISFE but with varying USFE. The remaing four potentials, developed by [Borovikov et al. in 2016](10.1088/0965-0393/24/8/085017), have largely the same USFE but with varying ISFE. Files for the eleven potentials can be found in the `potentials/` directory in this GitHub repository. Values of ISFE and USFE of each potential can be found in [this paper](http://dx.doi.org/10.1007/s10853-023-08779-8), whose references 31--45 are prior work where some or all of the eleven potentials were used.
+
+## Void size
+
+30 void sizes will be considered. If we were to change the void size, we would change the simulation cell size as well, such that the porosity remains at 0.5%.
 
 ## LAMMPS
 
-LAMMPS on OSCER does not come with many packages. To build more packages into LAMMPS, please visit [this page](https://docs.lammps.org/Build_package.html).
-
-To finish this project, build our own LAMMPS version with the following two packages included:
-
-- MANYBODY package. This is to use the manybody potential such as the embedded-atom method potential.
-- VORONOI package. This is to calculate Voronoi tessellation of the atoms in the simulation cell. To learn more, please visit [this page](https://docs.lammps.org/compute_voronoi_atom.html).
-
-60 LAMMPS simulations will be conducted in this project. Each time we run a new simulation, create a new directory.
+Since we will consider 60 LAMMPS simulations will be conducted in this project. Each time we run a new simulation, create a new directory.
 
 The interatomic potential is the same one used in our previous project.
 
