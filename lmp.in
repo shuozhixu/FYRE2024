@@ -37,6 +37,9 @@ pair_coeff	* * Cu1.eam.fs Cu
 neighbor        0.3     bin
 neigh_modify    delay   10
 
+thermo          100
+thermo_style    custom step temp etotal press pxx pyy pzz lx ly lz
+
 # ------------------- EQUILIBRATE -----------------------
 
 fix		1 all box/relax iso 0
@@ -59,7 +62,7 @@ variable	zstrain equal "(lz - v_lz0)/v_lz0"
 variable	pz equal "v_zstrain"
 
 variable	pd equal -(${px}+${py}+${pz})/3.
-variable	ph equal "(pxx+pyy+pzz)/3/10000"
+variable	ph equal "press/3/10000"
 
 print		"${pd} ${ph}" append stress_strain screen no
 
@@ -69,13 +72,13 @@ variable	scaling equal 0.999999
 
 reset_timestep	0
 
-variable	a loop 1
+variable	a loop 100000
 
 label		loop
 
 change_box      all x scale ${scaling} y scale ${scaling} z scale ${scaling} remap
 
-#dump		1 all custom 1 dump.* id type x y z
+#dump		1 all custom 1000 dump.* id type x y z
 
 minimize	1.0e-8 1.0e-10 10000 100000
 
@@ -87,7 +90,7 @@ variable	zstrain equal "(lz - v_lz0)/v_lz0"
 variable	pz equal "v_zstrain"
 
 variable	pd equal -(${px}+${py}+${pz})/3.
-variable	ph equal "(pxx+pyy+pzz)/3/10000"
+variable	ph equal "press/3/10000"
 
 print		"${pd} ${ph}" append dilatation_pressure screen no
 
