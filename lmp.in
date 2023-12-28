@@ -1,0 +1,97 @@
+# Cu single crystal containing a spherical void, LAMMPS input file
+# Shuozhi Xu, OU
+
+# ------------------- INITIALIZE -------------------------------
+
+units		metal
+boundary	p p p
+atom_style	atomic
+
+# ------------------- ATOM DEFINE ------------------------------
+
+variable	len equal 60
+variable	xlen equal ${len}
+variable	ylen equal ${len}
+variable	zlen equal ${len}
+
+lattice		fcc 3.639 orient x 1 0 0 orient y 0 1 0 orient z 0 0 1
+region		box block -${xlen} ${xlen} -${ylen} ${ylen} -${zlen} ${zlen} 
+
+create_box	1 box
+
+variable	radius equal ((${len}*2)^3*0.005/(4./3.*PI))^(1./3.)
+
+region		void sphere 0 0 0 ${radius} side out
+
+region		cell intersect 2 box void
+
+create_atoms	1 region cell
+
+# ------------------- FIELD DEFINE -----------------------------
+
+pair_style	eam/fs
+pair_coeff	* * Cu1.eam.fs Cu
+
+# ------------------- SETTINGS ---------------------------------
+
+neighbor        0.3     bin
+neigh_modify    delay   10
+
+# ------------------- EQUILIBRATE -----------------------
+
+fix		1 all box/relax iso 0
+minimize	1.0e-8 1.0e-10 10000 100000
+unfix		1
+
+# ------------------- STORE INITIAL LENGHT ---------------------
+variable	initial_x equal lx
+variable	lx0 equal ${initial_x}
+variable	initial_y equal ly
+variable	ly0 equal ${initial_y}
+variable	initial_z equal lz
+variable	lz0 equal ${initial_z}
+
+variable	xstrain equal "(lx - v_lx0)/v_lx0"
+variable	px equal "v_xstrain"
+variable	ystrain equal "(ly - v_ly0)/v_ly0"
+variable	py equal "v_ystrain"
+variable	zstrain equal "(lz - v_lz0)/v_lz0"
+variable	pz equal "v_zstrain"
+
+variable	pd equal -(${px}+${py}+${pz})/3.
+variable	ph equal "(pxx+pyy+pzz)/3/10000"
+
+print		"${pd} ${ph}" append stress_strain screen no
+
+#------------ DEFORMATION ------------------------------
+
+variable	scaling equal 0.999999
+
+reset_timestep	0
+
+variable	a loop 1
+
+label		loop
+
+change_box      all x scale ${scaling} y scale ${scaling} z scale ${scaling} remap
+
+#dump		1 all custom 1 dump.* id type x y z
+
+minimize	1.0e-8 1.0e-10 10000 100000
+
+variable	xstrain equal "(lx - v_lx0)/v_lx0"
+variable	px equal "v_xstrain"
+variable	ystrain equal "(ly - v_ly0)/v_ly0"
+variable	py equal "v_ystrain"
+variable	zstrain equal "(lz - v_lz0)/v_lz0"
+variable	pz equal "v_zstrain"
+
+variable	pd equal -(${px}+${py}+${pz})/3.
+variable	ph equal "(pxx+pyy+pzz)/3/10000"
+
+print		"${pd} ${ph}" append dilatation_pressure screen no
+
+#undump		1
+
+next		a
+jump		lmp.in loop
