@@ -9,7 +9,7 @@ atom_style	atomic
 
 # ------------------- ATOM DEFINE ------------------------------
 
-variable	len equal 60
+variable	len equal 64
 variable	xlen equal ${len}
 variable	ylen equal ${len}
 variable	zlen equal ${len}

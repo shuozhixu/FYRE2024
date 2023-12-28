@@ -31,11 +31,11 @@ Eleven interatomic potentials will be used. The first seven potentials, develope
 
 ## Void size
 
-30 void sizes will be considered. If we were to change the void size, we would change the simulation cell size as well, such that the porosity remains at 0.5%.
+32 void sizes will be considered. If we were to change the void size, we would change the simulation cell size as well, such that the porosity remains at 0.5%.
 
 ## LAMMPS simulations
 
-Since we will consider eleven interatomic potentials and 30 void sizes, we will run in total 330 LAMMPS simulations in this project. Each time we run a new simulation, create a new directory.
+Since we will consider eleven interatomic potentials and 32 void sizes, we will run in total 352 LAMMPS simulations in this project. Each time we run a new simulation, create a new directory.
 
 On the one hand, one can run multiple simulations at the same time. On the other hand, it is suggested that no more than ten simulations are run at the same time such that other students can also run simulations.
 
@@ -53,17 +53,19 @@ Once the simulation is finished, we will find a file `dilatation_pressure` in th
 	
 which would yield two numbers on the screen. The second number is the maximum hydrostatic pressure.
 
+Note: the void diameter here is about 100 nm. A void with a diameter less than 100 nm can be called a nanovoid.
+
 #### Other void sizes
 
 To switch to another void size, we need to make one change in the `lmp.in` file:
 
-- line 12. Change the number `60` to `58`
+- line 12. Change the number `64` to `62`
 
 Then submit the job by
 
 	sbatch lmp.batch
 
-Then switch to another void size by changing that number in line 12 to `56`, `54`, ..., `2`, respectively. As mentioned, in total 30 void sizes will be considered for each interatomic potential.
+Then switch to another void size by changing that number in line 12 to `60`, `58`, ..., `2`, respectively. As mentioned, in total 32 void sizes will be considered for each interatomic potential.
 
 Note: the smaller the void size, the smaller the simulation cell, and hence the less time it would take to finish the LAMMPS simulation.
 
