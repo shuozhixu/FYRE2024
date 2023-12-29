@@ -4,20 +4,20 @@
 
 Ductile metal fractures have traditionally been attributed to the growth of voids. With increasing strain, the metal's deformation becomes irreversible, and the voids expand more rapidly. As the strain increases further, neighboring voids interact and coalesce into larger ones, eventually leading to crack propagation within the metal.
 
-In this project, we will employ atomistic simulations to calculate the strength of a Cu single crystal containing a spherical nanovoid. We aim to answer these three questions:
+In this project, we will employ atomistic simulations to calculate the yield strength of a Cu single crystal containing a spherical nanovoid. We aim to answer these three questions:
 
-- How does the void size affect the material strength?
-- How do the stacking fault energies affect the void size-dependent material strength?
-- Related to the second question, can we train a machine learning (ML) model to predict the strength?
+- How does the void size affect the yield strength?
+- How do the stacking fault energies affect the void size-dependent yield strength?
+- Related to the second question, can we train a machine learning (ML) model to predict the yield strength?
 
-Please read the following journal articles to understand how the strength of a void-containing material can be calculated using atomistic simulations:
+Please read the following journal articles to understand how the deformation of a void-containing material is modeled in atomistic simulations:
 
 - Shuozhi Xu, Yanqing Su, Saeed Zare Chavoshi, [Deformation of periodic nanovoid structures in Mg single crystals](http://dx.doi.org/10.1088/2053-1591/aaa678), Mater. Res. Express 5 (2018) 016523
 - Shuozhi Xu, Yanqing Su, Dengke Chen, Longlei Li, [Plastic deformation of Cu single crystals containing an elliptic cylindrical void](http://dx.doi.org/10.1016/j.matlet.2017.02.005), Mater. Lett. 193 (2017) 283--287
 - Shuozhi Xu, Yanqing Su, [Nanovoid growth in BCC $\alpha$-Fe: Influences of initial void geometry](http://dx.doi.org/10.1088/0965-0393/24/8/085015), Modelling Simul. Mater. Sci. Eng. 24 (2016) 085015
 - Yanqing Su, Shuozhi Xu, [On the role of initial void geometry in plastic deformation of metallic thin films: A molecular dynamics study](http://dx.doi.org/10.1016/j.msea.2016.09.091), Mater. Sci. Eng. A 678 (2016) 153--164
 
-Note: all papers above were on 2D voids. More papers, including those on 3D voids, can be found [here](https://drive.google.com/drive/folders/10zcbMxHpxCnG1PrJtRhMz4cvf44nXNWz?usp=sharing).
+Note: all papers above were on 2D voids. More papers, including those on 3D voids, can be found [here](https://drive.google.com/drive/folders/10zcbMxHpxCnG1PrJtRhMz4cvf44nXNWz?usp=sharing). We will only consider a 3D, spherical void, in this project.
 
 ## Generalized stacking fault energy
 
@@ -27,7 +27,13 @@ Along the GSFE curve, two energies are important: instrinsic stacking fault ener
 
 ## Void size
 
-32 void sizes will be considered. If we were to change the void size, we would change the simulation cell size as well, such that the porosity remains at 0.5%.
+In additively manufactured [Inconel 625](https://doi.org/10.1016/j.matdes.2022.111545) and [Inconel 718](https://doi.org/10.1016/j.promfg.2020.05.117), the porosity is found to be less than 1%. In Inconel 718, [Prithivirajan and Sangid](https://doi.org/10.1016/j.matdes.2018.04.022) found that a porosity of 1% would likely initiate a fatigue crack. Thus, we use a porosity of 0.5%.
+
+Note: if we were to change the void size, we would change the simulation cell size as well, such that the porosity remains at 0.5%.
+
+The largest void diameter consiered in this project is about 100 nm because a void with a diameter exceeding 100 nm cannot be called a nanovoid. We will consider nanovoids only.
+
+For each interatomic potential, 32 void sizes will be considered.
 
 ## Interatomic potentials
 
@@ -41,7 +47,7 @@ The second set contains [one interatomic potential](https://doi.org/10.1103/phys
 
 Since we will consider 12 interatomic potentials and 32 void sizes, we will run in total 384 LAMMPS simulations. Each time we run a new simulation, create a new directory.
 
-On the one hand, one can run multiple simulations at the same time. On the other hand, it is suggested that no more than ten simulations are run at the same time such that other students can also run simulations.
+It is suggested that no more than ten simulations are run at the same time such that other students can also run simulations.
 
 ## One hypothesis and two sets of LAMMPS simulations
 
@@ -53,17 +59,15 @@ To address the hypothesis, let's run two sets of LAMMPS simulations. In one set,
 
 #### One void size
 
-Put the following three files in the same directory on OSCER: `Cu31.eam.fs`, `lmp.in`, `lmp.batch`. Then we submit the job by
+Place the following three files in the same directory on OSCER: `Cu31.eam.fs`, `lmp.in`, `lmp.batch`. Then we submit the job by
 
 	sbatch lmp.batch
 
-Once the simulation is finished, we will find a file `dilatation_pressure` in the directory on OSCER. Its first column is the dilatation (which is unitless) and its second column is the hydrostatic pressure (in units of GPa). Plot the dilatation-pressurer curve to see what it looks like. At the maximum hydrostatic pressure, the material yields, and the plastic deformation begins. The maximum hydrostatic pressure is then taken as the yield strength. It can be found by running
+Once the simulation is finished, we will find a file `dilatation_pressure` in the directory on OSCER. Its first column is the dilatation (which is unitless) and its second column is the hydrostatic pressure (in units of GPa). Plot the dilatation-pressure curve to see what it looks like. At the maximum hydrostatic pressure, the material yields, and the plastic deformation begins. The maximum hydrostatic pressure is then taken as the yield strength. It can be found by running
 
 	sh max_curve.sh
 	
 which would yield two numbers on the screen. The second number is the critical pressure.
-
-Note: the void diameter here is about 100 nm. This is the largest void size we will use in this project because a void with a diameter exceeding 100 nm cannot be called a nanovoid.
 
 #### Other void sizes
 
@@ -75,7 +79,7 @@ Then submit the job by
 
 	sbatch lmp.batch
 
-Then switch to another void size by changing that number in line 12 to `60`, `58`, ..., `2`, respectively. As mentioned, in total 32 void sizes will be considered for each interatomic potential.
+Then switch to other void sizes by changing that number in line 12 to `60`, `58`, ..., `2`, respectively. As mentioned, in total 32 void sizes will be considered for each interatomic potential.
 
 Note: the smaller the void size, the smaller the simulation cell, and hence the less time it would take to finish the LAMMPS simulation.
 
@@ -88,7 +92,7 @@ To switch to the `Mishin` potential, we need to make two changes in the `lmp.in`
 - line 32. Change it to `pair_style	eam/alloy`
 - line 33. Change it to `pair_coeff * * Cu_Mishin.eam.alloy Cu`
 
-To run the simulation, put the following three files in the same directory on OSCER: `Cu_Mishin.eam.alloy`, `lmp.in`, `lmp.batch`. Then we submit the job by
+To run the simulation, place the following three files in the same directory on OSCER: `Cu_Mishin.eam.alloy`, `lmp.in`, `lmp.batch`. Then we submit the job by
 
 	sbatch lmp.batch
 
@@ -96,7 +100,7 @@ Iteratively adjust the value of `len` in line 12 of the `lmp.in` file, so that w
 
 ### Comparison
 
-Plot the two curves, which are based on the `Cu31.eam.fs` and `Cu_Mishin.eam.alloy` potentials, respectively, in one figure. Are they close to each other? If yes, let's proceed with the remainder of the project. If no, let's discuss.
+Plot the two curves, which are based on the `Cu31` and the `Mishin` potentials, respectively, in one figure. Are they close to each other? If yes, let's proceed with the remainder of the project. If no, let's discuss.
 
 ## All other LAMMPS simulations
 
@@ -107,7 +111,7 @@ Take `Cu1` as an example. To run the simulation, we first make two changes in th
 - line 32. Change it to `pair_style	eam/fs`
 - line 33. Change it to `pair_coeff * * Cu2.eam.fs Cu`
 
-Then put the following three files in the same directory on OSCER: `Cu2.eam.fs`, `lmp.in`, `lmp.batch`. Then we submit the job by
+Then place the following three files in the same directory on OSCER: `Cu2.eam.fs`, `lmp.in`, `lmp.batch`. Then we submit the job by
 
 	sbatch lmp.batch
 
@@ -123,10 +127,10 @@ The first plot uses all data based on the first seven potentials (i.e., from Cu1
 
 The second plot uses all data based on the remaining four potentials (i.e., from Cu31 to Cu34). In this plot, let the _x_ axis be the void size, the _y_ axis be the USFE, and the _z_ axis be the yield strength. There should be 128 data points in total.
 
-Train two ML models for each plot. Use the _x_ and _y_ axes data as the input and the _z_ axis as the output. Alternatively, we may create a parameter that combines the ISFE and USFE, e.g., their ratio (see Figure 9 of [this paper](http://dx.doi.org/10.1007/s10853-023-08779-8)) or difference, and train an ML model where that single parameter and void size are used as the input while the strength as the output. Use the ML models to answer the following two questions:
+Train two ML models for each plot. Use the _x_ and _y_ axes data as the input and the _z_ axis as the output. Alternatively, we may create a parameter that combines the ISFE and USFE, e.g., their ratio (see Figure 9 of [this paper](http://dx.doi.org/10.1007/s10853-023-08779-8)) or difference, and train an ML model where that single parameter and void size are used as the input while the yield strength as the output. Use the ML models to answer the following two questions:
 
-- Which one between ISFE and USFE is more important in controlling the strength?
-- Which single parameter, if any, can be used to best predict the strength?
+- Which one between ISFE and USFE is more important in controlling the yield strength?
+- Which single parameter, if any, can be used to best predict the yield strength?
 
 ## References
 
