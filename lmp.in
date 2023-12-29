@@ -30,7 +30,7 @@ create_atoms	1 region cell
 # ------------------- FIELD DEFINE -----------------------------
 
 pair_style	eam/fs
-pair_coeff	* * Cu1.eam.fs Cu
+pair_coeff	* * Cu31.eam.fs Cu
 
 # ------------------- SETTINGS ---------------------------------
 
