@@ -7,7 +7,7 @@ Ductile metal fractures have traditionally been attributed to the growth of void
 In this project, we will employ atomistic simulations to calculate the yield strength of a Cu single crystal containing a spherical nanovoid. We aim to answer these three questions:
 
 - How does the void size affect the yield strength?
-- How do the stacking fault energies affect the void size-dependent yield strength?
+- How do the stacking fault energies and surface energies affect the void size-dependent yield strength?
 - Related to the second question, can we train a machine learning (ML) model to predict the yield strength?
 
 Please read the following journal articles to understand how the deformation of a void-containing material is modeled in atomistic simulations:
@@ -25,13 +25,17 @@ To understand the generalized stacking fault energy (GSFE) in face-centered cubi
 
 Along the GSFE curve, two energies are important: instrinsic stacking fault energy (ISFE) and unstable stacking fault energy (USFE). Note that ISFE is sometimes called stable stacking fault energy.
 
-## Void size
+## Surface energy
 
-In additively manufactured [Inconel 625](https://doi.org/10.1016/j.matdes.2022.111545) and [Inconel 718](https://doi.org/10.1016/j.promfg.2020.05.117), the porosity is found to be less than 1%. In Inconel 718, [Prithivirajan and Sangid](https://doi.org/10.1016/j.matdes.2018.04.022) found that a porosity of 1% would likely initiate a fatigue crack. Thus, we use a porosity of 0.5%.
+To understand the surface energies in elements, please read [this paper](http://dx.doi.org/10.1038/sdata.2016.80).
+
+## Porosity and void size
+
+In additively manufactured [Inconel 625](https://doi.org/10.1016/j.matdes.2022.111545) and [Inconel 718](https://doi.org/10.1016/j.promfg.2020.05.117), the porosity is found to be less than 1%. In Inconel 718, [Prithivirajan and Sangid](https://doi.org/10.1016/j.matdes.2018.04.022) found that a porosity of 1% would likely initiate a fatigue crack. In Cu, [Kumar et al.](https://doi.org/10.1016/j.promfg.2017.07.084) found that the as-printed material has a porosity of 0.26%–1.29%, while a heat treatment can lower the porosity to 0.09%–0.1%. Thus, we use a uniform porosity of 0.5% as a representation.
 
 Note: if we were to change the void size, we would change the simulation cell size as well, such that the porosity remains at 0.5%.
 
-The largest void diameter consiered in this project is about 100 nm because a void with a diameter exceeding 100 nm cannot be called a nanovoid. We will consider nanovoids only.
+The largest void diameter consiered in this project is about 100 nm because a void with a diameter exceeding 100 nm cannot be called a nanovoid. We will consider nanovoids only here.
 
 For each interatomic potential, 32 void sizes will be considered.
 
@@ -39,9 +43,11 @@ For each interatomic potential, 32 void sizes will be considered.
 
 There are two sets of interatomic potentials.
 
-The first set contains eleven interatomic potentials. The first seven potentials, developed by [Borovikov et al. in 2015](http://dx.doi.org/10.1088/0965-0393/23/5/055003), have largely the same ISFE but with varying USFE. The remaing four potentials, developed by [Borovikov et al. in 2016](10.1088/0965-0393/24/8/085017), have largely the same USFE but with varying ISFE. Files for the eleven potentials can be found in the `potentials/` directory in this GitHub repository. Values of ISFE and USFE of each potential can be found in [this paper](http://dx.doi.org/10.1007/s10853-023-08779-8), whose references 31--45 are prior work where some or all of the eleven potentials were used. As will be described below, results based on these eleven potentials will be used to train ML models.
+The first set contains eleven interatomic potentials. The first seven potentials, developed by [Borovikov et al. in 2015](http://dx.doi.org/10.1088/0965-0393/23/5/055003), have largely the same ISFE but with varying USFE. The remaing four potentials, developed by [Borovikov et al. in 2016](http://dx.doi.org/10.1088/0965-0393/24/8/085017), have largely the same USFE but with varying ISFE. Other material properties such as the lattice parameter, elastic constants, as well as vacancy formation and migration energies are largely the same for all eleven potentials. Note that the surface energies predicted by the eleven potentials also differ. Values of ISFE, USFE, and surface energies of the eleven potentials can be found in Table 1 of [this paper](http://dx.doi.org/10.1088/0965-0393/24/8/085017). Files for the eleven potentials can be found in the `potentials/` directory in this GitHub repository.
 
-The second set contains [one interatomic potential](https://doi.org/10.1103/physrevb.63.224106). This is to assess whether ISFE and USFE are the only important factors controlling the strength. The file for this potential, `Cu_Mishin.eam.alloy`, can be found in the `potentials/` directory in this GitHub repository.
+Note: the eleven potentials have been applied to many problems in Cu, see references 31–45 of [this paper](http://dx.doi.org/10.1007/s10853-023-08779-8).
+
+The second set contains [one interatomic potential](https://doi.org/10.1103/physrevb.63.224106). The file for this potential, `Cu_Mishin.eam.alloy`, can be found in the `potentials/` directory in this GitHub repository. Values of ISFE, USFE, and surface energies predicted by this `Mishin` potential are very close to those by the `Cu31` potential. However, the two potentials predict different lattice parameter and vacancy migration energy.
 
 ## A note on simulations
 
@@ -51,9 +57,9 @@ It is suggested that no more than ten simulations are run at the same time such 
 
 ## One hypothesis and two sets of LAMMPS simulations
 
-We have one hypothesis: the ISFE and USFE are the only factors that mainly control the strength of a Cu single crystal containing a spherical nanovoid.
+We have one hypothesis: the ISFE, USFE, and surface energies are the only factors that mainly control the strength of a Cu single crystal containing a spherical nanovoid.
 
-To address the hypothesis, let's run two sets of LAMMPS simulations. In one set, we use the `Cu31.eam.fs` potential; in the other set, we use the `Cu_Mishin.eam.alloy`  potential. Values of ISFE and USFE predicted by the two potentials are close to each other.
+To address the hypothesis, let's run two sets of LAMMPS simulations. In one set, we use the `Cu31.eam.fs` potential; in the other set, we use the `Cu_Mishin.eam.alloy`  potential. As mentioned, values of ISFE and USFE predicted by the two potentials are close to each other.
 
 ### The Cu31 potential
 
@@ -104,7 +110,7 @@ Plot the two curves, which are based on the `Cu31` and the `Mishin` potentials, 
 
 ## All other LAMMPS simulations
 
-Assume that our hypothesis is valid, we then need to run LAMMPS simulations using the remaining ten interatomic potentials in the first set, i.e., `Cu1`, `Cu2`, ..., `Cu7`, `Cu32`, `Cu33`, and `Cu34`.
+Assume that our hypothesis holds, we then need to run LAMMPS simulations using the remaining ten interatomic potentials in the first set, i.e., `Cu1`, `Cu2`, ..., `Cu7`, `Cu32`, `Cu33`, and `Cu34`.
 
 Take `Cu1` as an example. To run the simulation, we first make two changes in the `lmp.in` file
 
@@ -121,16 +127,22 @@ Once all simulations for the `Cu2` potential are done, proceed to the other nine
 
 ## Machine learning models
 
-Once all LAMMPS are finished, make two 3D plots. Do not include the `Mishin` potential results in either plot.
+Once all LAMMPS are finished, make three 3D plots. Do not include the `Mishin` potential results in any plot.
 
 The first plot uses all data based on the first seven potentials (i.e., from Cu1 to Cu7). In this plot, let the _x_ axis be the void size, the _y_ axis be the ISFE, and the _z_ axis be the yield strength. There should be 224 data points in total.
 
 The second plot uses all data based on the remaining four potentials (i.e., from Cu31 to Cu34). In this plot, let the _x_ axis be the void size, the _y_ axis be the USFE, and the _z_ axis be the yield strength. There should be 128 data points in total.
 
-Train two ML models for each plot. Use the _x_ and _y_ axes data as the input and the _z_ axis as the output. Alternatively, we may create a parameter that combines the ISFE and USFE, e.g., their ratio (see Figure 9 of [this paper](http://dx.doi.org/10.1007/s10853-023-08779-8)) or difference, and train an ML model where that single parameter and void size are used as the input while the yield strength as the output. Use the ML models to answer the following two questions:
+The third plot uses all data based on the eleven potentials (i.e., from Cu31 to Cu34). In this plot, let the _x_ axis be the void size, the _y_ axis be the mean surface energy among {100}, {110}, and {111} planes, and the _z_ axis be the yield strength. There should be 352 data points in total.
 
-- Which one between ISFE and USFE is more important in controlling the yield strength?
-- Which single parameter, if any, can be used to best predict the yield strength?
+Train one ML model for each plot. Use the _x_ and _y_ axes data as the input and the _z_ axis as the output.
+
+Alternatively, we may create _N_ combinatorial parameters that involve ISFE, USFE, and/or mean surface energy, e.g., the ratio of ISFE to USFE (see Figure 9 of [this paper](http://dx.doi.org/10.1007/s10853-023-08779-8)) or the difference between USFE and mean surface energy. Train _N_ ML models where each parameter and void size are used as the input while the yield strength as the output.
+
+Based on all those ML models, let's try to answer the following two scientific questions:
+
+- Which one, among ISFE, USFE, and mean surface energy, is the most important in controlling the yield strength?
+- Which combinatorial parameter (among the _N_ parameters) can be used to best predict the yield strength?
 
 ## References
 
