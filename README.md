@@ -69,11 +69,7 @@ Place the following three files in the same directory on OSCER: `Cu31.eam.fs`, `
 
 	sbatch lmp.batch
 
-Once the simulation is finished, we will find a file `dilatation_pressure` in the directory on OSCER. Its first column is the dilatation (which is unitless) and its second column is the hydrostatic pressure (in units of GPa). Plot the dilatation-pressure curve to see what it looks like. At the maximum hydrostatic pressure, the material yields, and the plastic deformation begins. The maximum hydrostatic pressure is then taken as the yield strength. It can be found by running
-
-	sh max_curve.sh
-	
-which would yield two numbers on the screen. The second number is the critical pressure.
+Once the simulation is finished, we will find a file `dilatation_pressure` in the directory on OSCER. Its first column is the dilatation (which is unitless) and its second column is the hydrostatic pressure (in units of GPa). Plot the dilatation-pressure curve to see what it looks like. When the dilatation is small, the pressure increases with it smoothly. However, when the dilatation is sufficiently large, the pressure would experience a large drop. And that is when the material yields and the plastic deformation begins. That critical hydrostatic pressure is then taken as the yield strength.
 
 #### Other void sizes
 

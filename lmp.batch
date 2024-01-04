@@ -3,7 +3,7 @@
 #SBATCH --job-name=void
 #SBATCH --partition=cm3atou
 #SBATCH --nodes=1
-#SBATCH --ntasks=16
+#SBATCH --ntasks=32
 #SBATCH --output=lmp.out
 #SBATCH --error=lmp.err
 #SBATCH --time=168:00:00

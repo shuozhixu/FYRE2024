@@ -72,7 +72,9 @@ variable	scaling equal 0.999999
 
 reset_timestep	0
 
-variable	a loop 0.1/(1.-${scaling})
+variable        b equal round(0.1/(1.-${scaling}))
+
+variable        a loop ${b}
 
 label		loop
 
