@@ -41,25 +41,19 @@ For each interatomic potential, 32 void sizes will be considered.
 
 ## Interatomic potentials
 
-There are two sets of interatomic potentials.
-
-The first set contains eleven interatomic potentials. The first seven potentials, developed by [Borovikov et al. in 2015](http://dx.doi.org/10.1088/0965-0393/23/5/055003), have largely the same ISFE but with varying USFE. The remaing four potentials, developed by [Borovikov et al. in 2016](http://dx.doi.org/10.1088/0965-0393/24/8/085017), have largely the same USFE but with varying ISFE. Other material properties such as the lattice parameter, elastic constants, as well as vacancy formation and migration energies are largely the same for all eleven potentials. Note that the surface energies predicted by the eleven potentials also differ. Values of ISFE, USFE, and surface energies of the eleven potentials can be found in Table 1 of [this paper](http://dx.doi.org/10.1088/0965-0393/24/8/085017). Files for the eleven potentials can be found in the `potentials/` directory in this GitHub repository.
+The are eleven interatomic potentials in total. The first seven potentials, developed by [Borovikov et al. in 2015](http://dx.doi.org/10.1088/0965-0393/23/5/055003), have largely the same ISFE but with varying USFE. The remaing four potentials, developed by [Borovikov et al. in 2016](http://dx.doi.org/10.1088/0965-0393/24/8/085017), have largely the same USFE but with varying ISFE. Other material properties such as the lattice parameter, elastic constants, as well as vacancy formation and migration energies are largely the same for all eleven potentials. Note that the surface energies predicted by the eleven potentials also differ. Values of ISFE, USFE, and surface energies of the eleven potentials can be found in Table 1 of [this paper](http://dx.doi.org/10.1088/0965-0393/24/8/085017). Files for the eleven potentials can be found in the `potentials/` directory in this GitHub repository.
 
 Note: the eleven potentials have been applied to many problems in Cu, see references 31–45 of [this paper](http://dx.doi.org/10.1007/s10853-023-08779-8).
 
-The second set contains [one interatomic potential](https://doi.org/10.1103/physrevb.63.224106). The file for this potential, `Cu_Mishin.eam.alloy`, can be found in the `potentials/` directory in this GitHub repository. Values of ISFE, USFE, and surface energies predicted by this `Mishin` potential are very close to those by the `Cu31` potential. However, the two potentials predict different lattice parameter and vacancy migration energy.
+[//]: # (The second set contains [one interatomic potential](https://doi.org/10.1103/physrevb.63.224106). The file for this potential, `Cu_Mishin.eam.alloy`, can be found in the `potentials/` directory in this GitHub repository. Values of ISFE, USFE, and surface energies predicted by this `Mishin` potential are very close to those by the `Cu31` potential. However, the two potentials predict different lattice parameter and vacancy migration energy.)
 
 ## A note on simulations
 
-Since we will consider 12 interatomic potentials and 32 void sizes, we will run in total 384 LAMMPS simulations. Each time we run a new simulation, create a new directory.
+Since we will consider eleven interatomic potentials and 32 void sizes, we will run in total 352 LAMMPS simulations. Each time we run a new simulation, create a new directory.
 
 It is suggested that no more than ten simulations are run at the same time such that other students can also run simulations.
 
-## One hypothesis and two sets of LAMMPS simulations
-
-We have one hypothesis: the ISFE, USFE, and surface energies are the only factors that mainly control the strength of a Cu single crystal containing a spherical nanovoid.
-
-To address the hypothesis, let's run two sets of LAMMPS simulations. In one set, we use the `Cu31.eam.fs` potential; in the other set, we use the `Cu_Mishin.eam.alloy`  potential. As mentioned, values of ISFE and USFE predicted by the two potentials are close to each other.
+## LAMMPS simulations
 
 ### The Cu31 potential
 
@@ -87,30 +81,12 @@ Note: the smaller the void size, the smaller the simulation cell, and hence the 
 
 Once all simulations are finished, plot one curve, with the _x_ axis being the void size and the _y_ axis being the yield strength.
 
-### The Mishin potential
+### Other potentials
 
-To switch to the `Mishin` potential, we need to make two changes in the `lmp.in` file:
+We then run LAMMPS simulations using the remaining ten interatomic potentials, i.e., `Cu1`, `Cu2`, ..., `Cu7`, `Cu32`, `Cu33`, and `Cu34`.
 
-- line 32. Change it to `pair_style	eam/alloy`
-- line 33. Change it to `pair_coeff * * Cu_Mishin.eam.alloy Cu`
+Take `Cu1` as an example. To run the simulation, we first make one change in the `lmp.in` file
 
-To run the simulation, place the following three files in the same directory on OSCER: `Cu_Mishin.eam.alloy`, `lmp.in`, `lmp.batch`. Then we submit the job by
-
-	sbatch lmp.batch
-
-Iteratively adjust the value of `len` in line 12 of the `lmp.in` file, so that we will obtain 32 strength values for the `Mishin` potential. At the end, plot one curve with the _x_ axis being the void size and the _y_ axis being the yield strength.
-
-### Comparison
-
-Plot the two curves, which are based on the `Cu31` and the `Mishin` potentials, respectively, in one figure. Are they close to each other? If yes, let's proceed with the remainder of the project. If no, let's discuss.
-
-## All other LAMMPS simulations
-
-Assume that our hypothesis holds, we then need to run LAMMPS simulations using the remaining ten interatomic potentials in the first set, i.e., `Cu1`, `Cu2`, ..., `Cu7`, `Cu32`, `Cu33`, and `Cu34`.
-
-Take `Cu1` as an example. To run the simulation, we first make two changes in the `lmp.in` file
-
-- line 32. Change it to `pair_style	eam/fs`
 - line 33. Change it to `pair_coeff * * Cu2.eam.fs Cu`
 
 Then place the following three files in the same directory on OSCER: `Cu2.eam.fs`, `lmp.in`, `lmp.batch`. Then we submit the job by
@@ -123,7 +99,7 @@ Once all simulations for the `Cu2` potential are done, proceed to the other nine
 
 ## Machine learning models
 
-Once all LAMMPS are finished, make three 3D plots. Do not include the `Mishin` potential results in any plot.
+Once all LAMMPS are finished, make three 3D plots.
 
 The first plot uses all data based on the first seven potentials (i.e., from Cu1 to Cu7). In this plot, let the _x_ axis be the void size, the _y_ axis be the ISFE, and the _z_ axis be the yield strength. There should be 224 data points in total.
 
