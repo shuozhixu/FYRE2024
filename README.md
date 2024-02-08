@@ -51,7 +51,7 @@ Note: the eleven potentials have been applied to many problems in Cu, see refere
 
 Since we will consider eleven interatomic potentials and 32 void sizes, we will run in total 352 LAMMPS simulations. Each time we run a new simulation, create a new directory.
 
-It is suggested that no more than ten simulations are run at the same time such that other students can also run simulations.
+It is suggested that no more than five simulations are run at the same time such that other students can also run simulations.
 
 ## LAMMPS simulations
 
