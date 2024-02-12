@@ -80,7 +80,7 @@ label		loop
 
 change_box      all x scale ${scaling} y scale ${scaling} z scale ${scaling} remap
 
-#dump		1 all custom 1000 dump.* id type x y z
+#dump		1 all custom 100000 dump.* id type x y z
 
 minimize	1.0e-8 1.0e-10 10000 100000
 
