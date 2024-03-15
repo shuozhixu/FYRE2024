@@ -45,7 +45,7 @@ The are eleven interatomic potentials in total. The first seven potentials, deve
 
 Note: the eleven potentials have been applied to many problems in Cu, see references 31–45 of [this paper](http://dx.doi.org/10.1007/s10853-023-08779-8).
 
-[//]: # (The second set contains [one interatomic potential](https://doi.org/10.1103/physrevb.63.224106). The file for this potential, `Cu_Mishin.eam.alloy`, can be found in the `potentials/` directory in this GitHub repository. Values of ISFE, USFE, and surface energies predicted by this `Mishin` potential are very close to those by the `Cu31` potential. However, the two potentials predict different lattice parameter and vacancy migration energy.)
+[//]: # (The second set contains [one interatomic potential]https://doi.org/10.1103/physrevb.63.224106. The file for this potential, `Cu_Mishin.eam.alloy`, can be found in the `potentials/` directory in this GitHub repository. Values of ISFE, USFE, and surface energies predicted by this `Mishin` potential are very close to those by the `Cu31` potential. However, the two potentials predict different lattice parameter and vacancy migration energy.)
 
 ## A note on simulations
 
