@@ -105,7 +105,7 @@ The first plot uses all data based on the first seven potentials (i.e., from Cu1
 
 The second plot uses all data based on the remaining four potentials (i.e., from Cu31 to Cu34). In this plot, let the _x_ axis be the void size, the _y_ axis be the USFE, and the _z_ axis be the yield strength. There should be 128 data points in total.
 
-The third plot uses all data based on the eleven potentials (i.e., from Cu31 to Cu34). In this plot, let the _x_ axis be the void size, the _y_ axis be the mean surface energy among {100}, {110}, and {111} planes, and the _z_ axis be the yield strength. There should be 352 data points in total.
+The third plot uses all data based on the eleven potentials (i.e., from Cu1 to Cu34). In this plot, let the _x_ axis be the void size, the _y_ axis be the mean surface energy among {100}, {110}, and {111} planes, and the _z_ axis be the yield strength. There should be 352 data points in total.
 
 Train one ML model for each plot. Use the _x_ and _y_ axes data as the input and the _z_ axis as the output.
 
