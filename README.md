@@ -31,9 +31,9 @@ To understand the surface energies in elements, please read [this paper](http://
 
 ## Porosity and void size
 
-In additively manufactured [Inconel 625](https://doi.org/10.1016/j.matdes.2022.111545) and [Inconel 718](https://doi.org/10.1016/j.promfg.2020.05.117), the porosity is found to be less than 1%. In Inconel 718, [Prithivirajan and Sangid](https://doi.org/10.1016/j.matdes.2018.04.022) found that a porosity of 1% would likely initiate a fatigue crack. In Cu, [Kumar et al.](https://doi.org/10.1016/j.promfg.2017.07.084) found that the as-printed material has a porosity of 0.26%–1.29%, while a heat treatment can lower the porosity to 0.09%–0.1%. Thus, we use a uniform porosity of 0.5% as a representation.
+In additively manufactured [Inconel 625](https://doi.org/10.1016/j.matdes.2022.111545) and [Inconel 718](https://doi.org/10.1016/j.promfg.2020.05.117), the porosity is found to be less than 1%. In Inconel 718, [Prithivirajan and Sangid](https://doi.org/10.1016/j.matdes.2018.04.022) found that a porosity of 1% would likely initiate a fatigue crack. In Cu, [Kumar et al.](https://doi.org/10.1016/j.promfg.2017.07.084) found that the as-printed material has a porosity of 0.26%–1.29%, while a heat treatment can lower the porosity to 0.09%–0.1%. Thus, we use a uniform porosity which is between 0.5% and 1% as a representation.
 
-Note: if we were to change the void size, we would change the simulation cell size as well, such that the porosity remains at 0.5%.
+Note: in this project, as the void size is changed, the simulation cell size is changed as well, such that the porosity remains unchanged.
 
 The largest void diameter consiered in this project is about 100 nm because a void with a diameter exceeding 100 nm cannot be called a nanovoid. We will consider nanovoids only here.
 
@@ -50,8 +50,6 @@ Note: the eleven potentials have been applied to many problems in Cu, see refere
 ## A note on simulations
 
 Since we will consider eleven interatomic potentials and 32 void sizes, we will run in total 352 LAMMPS simulations. Each time we run a new simulation, create a new directory.
-
-It is suggested that no more than five simulations are run at the same time such that other students can also run simulations.
 
 ## LAMMPS simulations
 
@@ -107,18 +105,16 @@ The second plot uses all data based on the remaining four potentials (i.e., from
 
 The third plot uses all data based on the eleven potentials (i.e., from Cu1 to Cu34). In this plot, let the _x_ axis be the void size, the _y_ axis be the mean surface energy among {100}, {110}, and {111} planes, and the _z_ axis be the yield strength. There should be 352 data points in total.
 
-Train one ML model for each plot. Use the _x_ and _y_ axes data as the input and the _z_ axis as the output.
+Alternatively, we may create _N_ combinatorial parameters that involve ISFE, USFE, and/or mean surface energy, e.g., the ratio of ISFE to USFE (see Figure 9 of [this paper](http://dx.doi.org/10.1007/s10853-023-08779-8)) or the difference between USFE and mean surface energy, and then use each of them as the _y_ axis in third plot.
 
-Alternatively, we may create _N_ combinatorial parameters that involve ISFE, USFE, and/or mean surface energy, e.g., the ratio of ISFE to USFE (see Figure 9 of [this paper](http://dx.doi.org/10.1007/s10853-023-08779-8)) or the difference between USFE and mean surface energy. Train _N_ ML models where each parameter and void size are used as the input while the yield strength as the output.
-
-Based on all those ML models, let's try to answer the following two scientific questions:
+Based on all those data, let's try to answer the following three scientific questions using ML:
 
 - Which one, among ISFE, USFE, and mean surface energy, is the most important in controlling the yield strength?
-- Which combinatorial parameter (among the _N_ parameters) can be used to best predict the yield strength?
+- Additionally, is there a combinatorial parameter that can best correlate with the yield strength?
+- How does the yield strength scale with the ISFE, USFE, mean surface energy, and/or the combinatorial parameter? For example, quadratically or cubically?
 
-## References
+## Reference
 
 If you use any files from this GitHub repository, please cite
 
 - Shuozhi Xu, Yanqing Su, Dengke Chen, Longlei Li, [Plastic deformation of Cu single crystals containing an elliptic cylindrical void](http://dx.doi.org/10.1016/j.matlet.2017.02.005), Mater. Lett. 193 (2017) 283--287
-- Yanqing Su, Shuozhi Xu, [On the role of initial void geometry in plastic deformation of metallic thin films: A molecular dynamics study](http://dx.doi.org/10.1016/j.msea.2016.09.091), Mater. Sci. Eng. A 678 (2016) 153--164
