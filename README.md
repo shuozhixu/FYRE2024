@@ -95,7 +95,7 @@ Iteratively adjust the value of `len` in line 12 of the `lmp.in` file, so that w
 
 Once all simulations for the `Cu2` potential are done, proceed to the other nine potentials.
 
-## Machine learning models
+## Plots
 
 Once all LAMMPS are finished, make three 3D plots.
 
@@ -106,6 +106,8 @@ The second plot uses all data based on the remaining four potentials (i.e., from
 The third plot uses all data based on the eleven potentials (i.e., from Cu1 to Cu34). In this plot, let the _x_ axis be the void size, the _y_ axis be the mean surface energy among {100}, {110}, and {111} planes, and the _z_ axis be the yield strength. There should be 352 data points in total.
 
 Alternatively, we may create _N_ combinatorial parameters that involve ISFE, USFE, and/or mean surface energy, e.g., the ratio of ISFE to USFE (see Figure 9 of [this paper](http://dx.doi.org/10.1007/s10853-023-08779-8)) or the difference between USFE and mean surface energy, and then use each of them as the _y_ axis in third plot.
+
+## Machine learning models
 
 Based on all those data, let's try to answer the following three scientific questions using ML:
 
