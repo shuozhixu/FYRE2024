@@ -35,8 +35,6 @@ In additively manufactured [Inconel 625](https://doi.org/10.1016/j.matdes.2022.1
 
 Note: in this project, as the void size is changed, the simulation cell size is changed as well, such that the porosity remains unchanged.
 
-The largest void diameter consiered in this project is about 100 nm because a void with a diameter exceeding 100 nm cannot be called a nanovoid. We will consider nanovoids only here.
-
 For each interatomic potential, 32 void sizes will be considered.
 
 ## Interatomic potentials
