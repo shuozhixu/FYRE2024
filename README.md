@@ -113,6 +113,10 @@ Based on all those data, let's try to answer the following three scientific ques
 - Additionally, is there a combinatorial parameter that can best correlate with the yield strength?
 - How does the yield strength scale with the ISFE, USFE, mean surface energy, and/or the combinatorial parameter? For example, quadratically or cubically?
 
+## Void fraction
+
+Void fraction at a given dilatation can be calculated from the atomistic structure, using codes in [another GitHub repository](https://github.com/MahshadFani/FYRE2024).
+
 ## Reference
 
 If you use any files from this GitHub repository, please cite
