@@ -91,7 +91,7 @@ variable	py equal "v_ystrain"
 variable	zstrain equal "(lz - v_lz0)/v_lz0"
 variable	pz equal "v_zstrain"
 
-variable	pd equal -(${px}+${py}+${pz})/3.
+variable	pd equal -(${px}+${py}+${pz})
 variable	ph equal "press/3/10000"
 
 print		"${pd} ${ph}" append dilatation_pressure screen no

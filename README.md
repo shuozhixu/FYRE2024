@@ -4,11 +4,11 @@
 
 Ductile metal fractures have traditionally been attributed to the growth of voids. With increasing strain, the metal's deformation becomes irreversible, and the voids expand more rapidly. As the strain increases further, neighboring voids interact and coalesce into larger ones, eventually leading to crack propagation within the metal.
 
-In this project, we will employ atomistic simulations to calculate the yield strength of a Cu single crystal containing a spherical nanovoid. We aim to answer these three questions:
+In this project, we will employ atomistic simulations to calculate the critical pressure of a Cu single crystal containing a spherical nanovoid. We aim to answer these three questions:
 
-- How does the void size affect the yield strength?
-- How do the stacking fault energies and surface energies affect the void size-dependent yield strength?
-- Related to the second question, can we train a machine learning (ML) model to predict the yield strength?
+- How does the void size affect the critical pressure?
+- How do the stacking fault energies and surface energies affect the void size-dependent critical pressure?
+- Related to the second question, can we train a machine learning (ML) model to predict the critical pressure?
 
 Please read the following journal articles to understand how the deformation of a void-containing material is modeled in atomistic simulations:
 
@@ -59,7 +59,7 @@ Place the following three files in the same directory on OSCER: `Cu31.eam.fs`, `
 
 	sbatch lmp.batch
 
-Once the simulation is finished, we will find a file `dilatation_pressure` in the directory on OSCER. Its first column is the dilatation (which is unitless) and its second column is the hydrostatic pressure (in units of GPa). Plot the dilatation-pressure curve to see what it looks like. When the dilatation is small, the pressure increases with it smoothly (but not linearly). However, when the dilatation is sufficiently large, the pressure would experience a large drop. And that is when the material yields and the plastic deformation begins. That critical hydrostatic pressure is then taken as the yield strength.
+Once the simulation is finished, we will find a file `dilatation_pressure` in the directory on OSCER. Its first column is the dilatation (which is unitless) and its second column is the hydrostatic pressure (in units of GPa). Plot the dilatation-pressure curve to see what it looks like. When the dilatation is small, the pressure increases with it smoothly (but not linearly). However, when the dilatation is sufficiently large, the pressure would experience a large drop. And that is when the void collapses completely. The hydrostatic pressure for that critical event is called critical pressure.
 
 #### Other void sizes
 
@@ -75,7 +75,7 @@ Then switch to other void sizes by changing that number in line 12 to `60`, `58`
 
 Note: the smaller the void size, the smaller the simulation cell, and hence the less time it would take to finish the LAMMPS simulation.
 
-Once all simulations are finished, plot one curve, with the _x_ axis being the void size and the _y_ axis being the yield strength.
+Once all simulations are finished, plot one curve, with the _x_ axis being the void size and the _y_ axis being the critical pressure.
 
 ### Other potentials
 
@@ -97,11 +97,11 @@ Once all simulations for the `Cu2` potential are done, proceed to the other nine
 
 Once all LAMMPS are finished, make three 3D plots.
 
-The first plot uses all data based on the first seven potentials (i.e., from Cu1 to Cu7). In this plot, let the _x_ axis be the void size, the _y_ axis be the ISFE, and the _z_ axis be the yield strength. There should be 224 data points in total.
+The first plot uses all data based on the first seven potentials (i.e., from Cu1 to Cu7). In this plot, let the _x_ axis be the void size, the _y_ axis be the ISFE, and the _z_ axis be the critical pressure. There should be 224 data points in total.
 
-The second plot uses all data based on the remaining four potentials (i.e., from Cu31 to Cu34). In this plot, let the _x_ axis be the void size, the _y_ axis be the USFE, and the _z_ axis be the yield strength. There should be 128 data points in total.
+The second plot uses all data based on the remaining four potentials (i.e., from Cu31 to Cu34). In this plot, let the _x_ axis be the void size, the _y_ axis be the USFE, and the _z_ axis be the critical pressure. There should be 128 data points in total.
 
-The third plot uses all data based on the eleven potentials (i.e., from Cu1 to Cu34). In this plot, let the _x_ axis be the void size, the _y_ axis be the mean surface energy among {100}, {110}, and {111} planes, and the _z_ axis be the yield strength. There should be 352 data points in total.
+The third plot uses all data based on the eleven potentials (i.e., from Cu1 to Cu34). In this plot, let the _x_ axis be the void size, the _y_ axis be the mean surface energy among {100}, {110}, and {111} planes, and the _z_ axis be the critical pressure. There should be 352 data points in total.
 
 Alternatively, we may create _N_ combinatorial parameters that involve ISFE, USFE, and/or mean surface energy, e.g., the ratio of ISFE to USFE (see Figure 9 of [this paper](http://dx.doi.org/10.1007/s10853-023-08779-8)) or the difference between USFE and mean surface energy, and then use each of them as the _y_ axis in third plot.
 
@@ -109,9 +109,9 @@ Alternatively, we may create _N_ combinatorial parameters that involve ISFE, USF
 
 Based on all those data, let's try to answer the following three scientific questions using ML:
 
-- Which one, among ISFE, USFE, and mean surface energy, is the most important in controlling the yield strength?
-- Additionally, is there a combinatorial parameter that can best correlate with the yield strength?
-- How does the yield strength scale with the ISFE, USFE, mean surface energy, and/or the combinatorial parameter? For example, quadratically or cubically?
+- Which one, among ISFE, USFE, and mean surface energy, is the most important in controlling the critical pressure?
+- Additionally, is there a combinatorial parameter that can best correlate with the critical pressure?
+- How does the critical pressure scale with the ISFE, USFE, mean surface energy, and/or the combinatorial parameter? For example, quadratically or cubically?
 
 ## Void fraction
 
