@@ -121,4 +121,4 @@ Porosity, i.e., void fraction, at a given dilatation can be calculated from the 
 
 If you use any files from this GitHub repository, please cite
 
-- Shuozhi Xu, Yanqing Su, Dengke Chen, Longlei Li, [Plastic deformation of Cu single crystals containing an elliptic cylindrical void](http://dx.doi.org/10.1016/j.matlet.2017.02.005), Mater. Lett. 193 (2017) 283--287
+- Mahshad Fani, William Chadwell, Nishad Tasnim, Xin Wang, Mohammad Younes Araghi, Kun Lu, Zejian Zhou, Tang Gu, Shuozhi Xu, [Constructing surrogates for atomistic simulations via deep learning and generative large language models](https://doi.org/10.1557/s43578-025-01571-1), J. Mater. Res. (2025)
