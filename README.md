@@ -121,4 +121,4 @@ Porosity, i.e., void fraction, at a given dilatation can be calculated from the 
 
 If you use any files from this GitHub repository, please cite
 
-- Mahshad Fani, William Chadwell, Nishad Tasnim, Xin Wang, Mohammad Younes Araghi, Kun Lu, Zejian Zhou, Tang Gu, Shuozhi Xu, [Constructing surrogates for atomistic simulations via deep learning and generative large language models](https://doi.org/10.1557/s43578-025-01571-1), J. Mater. Res. (2025)
+- Mahshad Fani, William Chadwell, Nishad Tasnim, Xin Wang, Mohammad Younes Araghi, Kun Lu, Zejian Zhou, Tang Gu, Shuozhi Xu, [Constructing surrogates for atomistic simulations via deep learning and generative large language models](https://doi.org/10.1557/s43578-025-01571-1), J. Mater. Res. 41 (2026) 180--196
